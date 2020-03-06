@@ -31,7 +31,6 @@ build/
 .vscode/
 /mvnw
 /mvnw.cmd
-/pom.xml
 /.mvn/
 /.idea/
 /sb-quartz.iml
