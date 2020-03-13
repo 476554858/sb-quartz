@@ -18,6 +18,7 @@
 <body>
 <div style="width: 100%;height: 100%;display: flex;flex-direction: column;align-items: center;">
     <h4  style="margin-top: 13%">简单定时任务demo(进行任务的操作时会延迟2秒，请耐心等待操作结果)</h4>
+    <h4>前5个按钮属于任务调度功能，最后一个按钮数据和动态从数据读cron的定时任务功能)</h4>
     <form class="form-inline" style="margin-top: 15px">
         <div class="form-group">
             <label for="cron">cron表达式</label>
@@ -28,8 +29,10 @@
         <button id="pause" class="btn btn-warning" type="button">暂停任务</button>
         <button id="resume" class="btn btn-info" type="button">恢复任务</button>
         <button id="delete" class="btn btn-danger" type="button">删除任务</button>
+        <button id="updateDB" class="btn btn-success" type="button">更改数据库cron</button>
     </form>
 </div>
+
 <script type="text/javascript">
 
 
@@ -146,7 +149,25 @@
                 }
             })
         })
-    
+
+
+
+    $("#updateDB").click(function () {
+        var isExist = checkExist();
+        var cronValue = $("#cron").val();
+        $.ajax({
+            url:"/db/updateCron",
+            type:"post",
+            data:{cron:cronValue},
+            success:function (data) {
+                if(data){
+                    layer.alert("数据库cron已经更改，请去控制台查看日志情况",1)
+                }else{
+                    layer.msg("数据库cron已经更改失败")
+                }
+            }
+        })
+    })
      function check(cronValue) {
         var res = true;
         if(cronValue==null||cronValue==""){
