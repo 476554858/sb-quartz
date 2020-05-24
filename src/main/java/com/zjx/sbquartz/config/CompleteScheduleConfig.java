@@ -42,13 +42,14 @@ public class CompleteScheduleConfig implements SchedulingConfigurer {
                     public Date nextExecutionTime(TriggerContext triggerContext) {
                         //2.1 从数据库获取执行周期
                         CronEntity cronEntity =  cronEntityMapper.selectById(1);
-                        String value = cronEntity.getValue();
+                      /*  String value = cronEntity.getValue();
                         //2.2 合法性校验.
                         if (StringUtils.isEmpty(value) || !CronExpression.isValidExpression(value)) {
                             // omitted code ..
                         }
                         //2.3 返回执行周期(Date)
-                        return new CronTrigger(value).nextExecutionTime(triggerContext);
+                        return new CronTrigger(value).nextExecutionTime(triggerContext);*/
+                      return null;
                     }
                 }
         );

@@ -2,10 +2,12 @@ package com.zjx.sbquartz.config;
 
 import net.sf.jabb.quartz.AutowiringSpringBeanJobFactory;
 import org.quartz.spi.JobFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
@@ -14,6 +16,9 @@ import javax.sql.DataSource;
 @EnableScheduling
 @Configuration
 public class QuartzConfig {
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @Bean
     public JobFactory jobFactory(ApplicationContext applicationContext){
@@ -24,12 +29,12 @@ public class QuartzConfig {
 
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory){
-
+        DataSource dataSource = applicationContext.getBean(DataSource.class);
         SchedulerFactoryBean schedulerFactoryBean=new SchedulerFactoryBean();
         //将spring管理job自定义工厂交由调度器维护
         schedulerFactoryBean.setJobFactory(jobFactory);
         //设置配置文件位置
-//        schedulerFactoryBean.setConfigLocation(new ClassPathResource("/quartz.properties"));
+        schedulerFactoryBean.setConfigLocation(new ClassPathResource("/quartz.properties"));
         //设置覆盖已存在的任务
         schedulerFactoryBean.setOverwriteExistingJobs(true);
         //项目启动完成后，等待2秒后开始执行调度器初始化
@@ -38,7 +43,7 @@ public class QuartzConfig {
         schedulerFactoryBean.setAutoStartup(true);
 
         //设置数据源，使用与项目统一数据源
-//        schedulerFactoryBean.setDataSource(dataSource);
+        schedulerFactoryBean.setDataSource(dataSource);
 
         return schedulerFactoryBean;
     }

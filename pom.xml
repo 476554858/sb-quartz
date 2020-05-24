@@ -80,6 +80,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.leopard/leopard-memcache -->
+		<dependency>
+			<groupId>io.leopard</groupId>
+			<artifactId>leopard-memcache</artifactId>
+			<version>0.9.12</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -90,6 +97,11 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
 		</dependency>
 	</dependencies>
 
