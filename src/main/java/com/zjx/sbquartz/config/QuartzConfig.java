@@ -3,7 +3,7 @@ package com.zjx.sbquartz.config;
 import net.sf.jabb.quartz.AutowiringSpringBeanJobFactory;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Properties;
 
 @EnableScheduling
 @Configuration
@@ -27,7 +29,7 @@ public class QuartzConfig {
         return jobFactory;
     }
 
-    @Bean
+//    @Bean
     public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory){
         DataSource dataSource = applicationContext.getBean(DataSource.class);
         SchedulerFactoryBean schedulerFactoryBean=new SchedulerFactoryBean();
@@ -46,5 +48,24 @@ public class QuartzConfig {
         schedulerFactoryBean.setDataSource(dataSource);
 
         return schedulerFactoryBean;
+    }
+
+    @Bean(name = "schedulerFactoryBean2")
+    public SchedulerFactoryBean schedulerFactoryBean2(JobFactory jobFactory) throws IOException {
+        //获取配置属性
+        DataSource dataSource = applicationContext.getBean(DataSource.class);
+        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+        propertiesFactoryBean.setLocation(new ClassPathResource("quartz_db.properties"));
+        //在quartz.properties中的属性被读取并注入后再初始化对象
+        propertiesFactoryBean.afterPropertiesSet();
+        //创建SchedulerFactoryBean
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        Properties pro = propertiesFactoryBean.getObject();
+        factory.setOverwriteExistingJobs(true);
+        factory.setAutoStartup(true);
+        factory.setQuartzProperties(pro);
+        factory.setDataSource(dataSource);
+        factory.setJobFactory(jobFactory);
+        return factory;
     }
 }

@@ -21,11 +21,11 @@ public class HelloJob implements Job{
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("==========模拟定时任务=============="+sdf.format(new Date()));
-        CronEntity cronEntity = new CronEntity();
+      /*  CronEntity cronEntity = new CronEntity();
         cronEntity.setValue("* * * * * ?");
         Map<String,String> map = new HashMap<String, String>();
         map.put("","");
-        cronEntityMapper.insert(cronEntity);
+        cronEntityMapper.insert(cronEntity);*/
 
     }
 
