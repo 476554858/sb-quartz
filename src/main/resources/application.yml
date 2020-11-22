@@ -4,3 +4,11 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
+
+
+#####
+zjx:
+  starter:
+    begin: true
+    userName: testName
+    age: 21
