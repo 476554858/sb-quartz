@@ -1,5 +1,6 @@
 package com.zjx.sbquartz.controller;
 
+import com.zjx.config.UserProperties;
 import com.zjx.sbquartz.entity.CronEntity;
 import com.zjx.sbquartz.mapper.CronEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class ScheduleDBController {
     @Autowired
     CronEntityMapper cronEntityMapper;
 
+
+    @Autowired
+    UserProperties userProperties;
+
     @RequestMapping("/updateCron")
     public boolean testDBSchedule(@RequestParam String cron){
         CronEntity cronEntity = null;
@@ -28,5 +33,12 @@ public class ScheduleDBController {
             return false;
         }
         return true;
+    }
+
+    @ResponseBody
+    @RequestMapping("/test")
+    public Object test(@RequestParam Integer age){
+        System.out.println(age);
+        return userProperties;
     }
 }

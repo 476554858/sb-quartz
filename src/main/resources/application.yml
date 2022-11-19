@@ -7,8 +7,8 @@ spring:
 
 
 #####
-#zjx:
-#  starter:
-#    begin: true
-#    userName: testName
-#    age: 21
+zjx:
+  starter:
+    begin: true
+    userName: testName
+    age: 21
